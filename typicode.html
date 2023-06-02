@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <button id="list" onclick="loadphoto()">Photolar</button>
+    <button id="list" onclick="loadpost()">Post list</button>
+    <button id="list" onclick="loadData()">Todos list</button>
+
+    <div><span>Toplam adet: </span><span id="total"></span></div>
+<div>
+    <TABLE BORDER CELLPADDING=2 id="tablo">
+        <ul id="tablolist"></ul>
+
+       </TABLE>
+
+
+        
+ 
+
+    
+
+    <script>
+        function loadData(){
+            var total = 0
+            document.getElementById("tablo").innerHTML = ""
+            axios.get("https://jsonplaceholder.typicode.com/todos")
+            .then(res =>{
+                let companylist = res.data;
+                companylist.forEach(element => {
+                    let liElement = document.createElement("tr");
+                    liElement.innerHTML ="<tr><td><ul> " + element.id + "</ul></td><td><ul>" + element.title + "</ul></td><td><ul>" + element.completed + "</ul></td></tr>" ;                     
+                    document.getElementById("tablo").appendChild(liElement);
+                    total++
+
+                });
+                document.getElementById("total").innerHTML = total;
+            })
+        }
+
+        loadData()
+
+
+        axios.get("https://jsonplaceholder.typicode.com/posts")
+  .then(response => {
+    let posts = response.data;
+    let count = posts.filter(post => post.userId == 1).length;
+    console.log(count);
+  })
+
+  function loadphoto(){
+            var total = 0
+            document.getElementById("tablo").innerHTML = ""
+            axios.get("https://jsonplaceholder.typicode.com/photos")
+            .then(res =>{
+                let companylist = res.data;
+                companylist.forEach(element => {
+                    let liElement = document.createElement("tr");
+                    liElement.innerHTML ="<tr><td><ul> " + element.title + "</ul></td>";                     
+                    document.getElementById("tablo").appendChild(liElement);
+                    total++
+
+                });
+                document.getElementById("total").innerHTML = total;
+            })
+        }
+
+
+
+        function loadpost(){
+            var total = 0
+            document.getElementById("tablo").innerHTML = ""
+            axios.get("https://jsonplaceholder.typicode.com/posts")
+            .then(res =>{
+                let companylist = res.data;
+                companylist.forEach(element => {
+                    let liElement = document.createElement("tr");
+                    liElement.innerHTML ="<tr><td><ul> " + element.id + "</ul></td><td><ul>" + element.title + "</ul></td><td><ul>" + element.body + "</ul></td></tr>" ;                     
+                    document.getElementById("tablo").appendChild(liElement);
+                    total++
+
+                });
+                document.getElementById("total").innerHTML = total;
+            })
+        }
+
+    </script>
+</body>
+</html>
