@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+<div>
+    <label for="">Company Name</label><input type="text" id="CompanyName"><br>
+    <label for="">Contact Name</label><input type="text" id="ContactName"><br>
+    <label for="">Contact Title</Title></label><input type="text" id="ContactTitle"><br>
+    <button onclick="add()">Company Add</button><br>
+    <label for="">İd</Title></label><input id="suppliersid" type="text"><br>
+    <button  onclick="deletesupli()">İd Dell</button><br>
+    
+        
+        <button onclick="loadData()">Company listesi</button></div>
+
+
+    <div>
+        <ul id="company"></ul>
+    </div>
+
+
+
+
+
+    <script>
+
+        function loadData(){
+            document.getElementById("company").innerHTML = ""
+            axios.get("https://northwind.vercel.app/api/suppliers")
+            .then(res =>{
+                let companylist = res.data;
+                companylist.forEach(element => {
+                    let liElement = document.createElement("li");
+                    liElement.innerHTML = element.companyName; 
+                    document.getElementById("company").appendChild(liElement);
+                });
+            })
+        }
+
+        function add(){
+            let comName = document.getElementById("CompanyName").value;
+            let conName = document.getElementById("ContactName").value;
+            let conTitle = document.getElementById("ContactTitle").value;
+            let newsuppliers ={
+                companyName : comName,
+                contactName : conName,
+                contactTitle : conTitle
+            }
+
+            axios.post("https://northwind.vercel.app/api/suppliers",newsuppliers)
+            .then(res => {
+                console.log("Response", res);
+                alert("Ekleme işlemi başarılı")
+            })
+        }
+    
+        function deletesupli() {
+            let id = document.getElementById("suppliersid").value;
+
+            axios.delete("https://northwind.vercel.app/api/suppliers/"+ id)
+            .then(res => {
+                console.log("Success");
+                loadData()
+
+            })
+
+        }
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
